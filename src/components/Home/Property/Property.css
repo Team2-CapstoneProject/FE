@@ -1,0 +1,50 @@
+.property-wrapper{
+  background: #F5F1EF;
+  /* height: 200px; */
+  padding-bottom: 20rem;
+  position: relative;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.property-container{
+  /* justify-content: space-between; */
+  align-items: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.property-title{
+  margin-top: 5rem;
+  margin-bottom: 3.9rem;
+  color: #3B3A5D;
+}
+
+.property-title span{
+  color: #B16642;
+}
+
+.property-title h1{
+  font-size: 2.7rem;
+  font-weight: 700;
+}
+
+.property-title h3{
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.card-grid{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+  margin-top: 20px;
+  margin: 2rem;
+}
+

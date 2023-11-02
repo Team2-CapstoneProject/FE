@@ -4,28 +4,28 @@ import "./Banner.css";
 const Banner = () => {
   return (
     <section className="banner-wrapper">
-      <div className="padding innerWidth flexCenter banner-container">
+      <div className="paddings innerWidth flexCenter banner-container">
         {/* Left Side */}
         <div className="flexColStart banner-left">
-          <div className="banner-cat">
+          {/* <div className="flexStart paddings banner-cat">
             <img src="./home.png" alt="" />
             <h3>Villa Agency</h3>
-          </div>
+          </div> */}
           <div className="banner-title">
-            <img src="./acc1.png" alt="" />
+            {/* <img src="./acc1.png" alt="" /> */}
             <h1>
               Find the perfect <br />
               place to stay with <br /> your family
             </h1>
           </div>
 
-          <div className="banner-desc">
+          <div className="flexColStart banner-desc">
             <p>
               Distinctively re-engineer revolutionary meta-services and premium
               <br /> architectures. Intrinsically incubate.
             </p>
           </div>
-          <button className="button">
+          <button className="flexCenter button">
             <h2>Explore Places</h2>
             <img src="./arrow-right.png" alt="" />
           </button>
@@ -33,9 +33,9 @@ const Banner = () => {
 
         {/* Right Side */}
         <div className="banner-right">
-          <div className="banner-bg">
+          {/* <div className="banner-bg">
             <img src="./acc2.png" alt="" />
-          </div>
+          </div> */}
           <div className="image-container">
             <img src="./banner.png" alt="" />
           </div>

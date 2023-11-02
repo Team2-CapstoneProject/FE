@@ -10,7 +10,7 @@
 }
 
 .image-container{
-  max-width: 650px;
+  max-width: max-content;
 }
 
 .image-container img {

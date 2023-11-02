@@ -5,7 +5,7 @@ import Card from "../Card";
 const Property = () => {
   return (
     <section className="property-wrapper">
-      <div className="property-container">
+      <div className="paddings innerWidth property-container">
         <div className="property-title">
           <h3>
             <span>02</span> | Featured properties

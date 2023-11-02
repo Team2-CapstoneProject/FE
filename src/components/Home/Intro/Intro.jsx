@@ -3,10 +3,10 @@ import "./Intro.css";
 
 const Intro = () => {
   return (
-    <section className="intro-wrapper">
+    <section className="paddings innerWidth intro-wrapper">
       <div className="intro-container">
         {/* Left */}
-        <div className="item-left">
+        <div className="item-left flexColStart">
           <div className="intro-title">
             <h3>
               <span>01</span> | PROPERLAND INTRO

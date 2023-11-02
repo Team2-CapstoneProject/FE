@@ -12,8 +12,9 @@
   position: relative;
 }
 
-.banner-title img{
+.banner-title>img{
   position: absolute;
+  overflow: hidden;
   height: 90rem;
   width: 90rem;
   right: -28%;
@@ -23,14 +24,15 @@
   z-index: -1;
 }
 
-.padding{
-  padding-left: 5rem;
+.banner-title{
+  margin-top: 15rem;
 }
+
 
 /* Left */
 .banner-left{
   gap: 3rem;
-  margin-bottom: 5rem;
+  /* margin-bottom: 5rem; */
 }
 
 .banner-cat{
@@ -60,7 +62,7 @@
   z-index: 1;
 }
 
-.banner-title h1{
+.banner-title>h1{
   font-weight: 700;
   font-size: 3.8rem;
   line-height: 4rem;
@@ -91,11 +93,11 @@
   width: 50rem;
   height: 100%;
   overflow: hidden;
-  display: flex;
-  right: 0;
-  bottom: 0;
+  /* display: flex; */
+  /* right: 0; */
+  /* bottom: 0; */
   align-items: flex-end;
-  position: relative;
+  /* position: relative; */
   z-index: 1;
 }
 
@@ -104,15 +106,16 @@
   height: 100%;
 }
 
-.banner-bg img{
+.banner-bg>img{
   position: absolute;
   /* max-width: 1200px; */
-  height: 90rem;
+  overflow: hidden;
+  /* height: 90rem; */
   width: 90rem;
   /* left: -50%; */
   right: 30%;
   top: -50%;
-  z-index: 0;
+  z-index: -1;
   transform: rotate(5deg);
 }
 
@@ -126,4 +129,3 @@
     opacity: 1;
   }
 }
-

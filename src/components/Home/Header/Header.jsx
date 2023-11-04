@@ -1,23 +1,21 @@
 import React from "react";
-import "./styles.css";
-import { MenuData } from "./MenuItem";
+import "./Header.css";
 
 const Header = () => {
   return (
-    <nav className="NavbarItems">
-      <h1 className="logo">Azure Voyage</h1>
-      <ul className="nav-menu">
-        {MenuData.map((item, index) => {
-          return (
-            <li key={index}>
-              <a href={item.url} className={item.cName}>
-                {item.title}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+    <section className="h-wrapper">
+      <div className="flexCenter paddings innerWidth h-container ">
+        <img src="./logo.png" alt="logo" />
+
+        <div className="flexCenter h-menu">
+          <a href="/">Get Started</a>
+          <a href="/">Featured</a>
+          <a href="/">Why Choose</a>
+          <a href="/">About Us</a>
+          <button className="button">Contact</button>
+        </div>
+      </div>
+    </section>
   );
 };
 

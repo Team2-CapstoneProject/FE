@@ -5,5 +5,5 @@
 .App>:nth-child(1)
 {
   background: linear-gradient(200deg, #EAB196 0%, #FFF0E9 60%);
-  position: relative;
+  /* position: relative; */
 }

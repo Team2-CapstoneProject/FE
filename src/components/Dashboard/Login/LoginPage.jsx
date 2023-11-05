@@ -53,6 +53,7 @@ const LoginPage = () => {
               </label>
               <input
                 type="text"
+                id="email"
                 name="email"
                 autoComplete="false"
                 className="login-input"
@@ -67,6 +68,7 @@ const LoginPage = () => {
               </label>
               <input
                 type="password"
+                id="password"
                 name="password"
                 autoComplete="false"
                 className="login-input"

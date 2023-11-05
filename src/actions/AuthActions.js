@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+axios.defaults.withCredentials = true;
+
 export const loginSuccess = (user, token) => (dispatch) => {
   dispatch({
     type: 'LOGIN_SUCCESS',
@@ -19,7 +21,7 @@ export const loginUser = (credentials, navigate) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        'http://localhost:3001/api/auth/login',
+        '/api/auth/login',
         credentials
       );
 

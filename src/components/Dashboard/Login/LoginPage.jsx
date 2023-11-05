@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../Login/Login.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../../../actions/AuthActions";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,6 @@ const LoginPage = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const error = useSelector((state) => state.auth.error);
 
   const handleInputChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -21,6 +20,7 @@ const LoginPage = () => {
   const handleLogin = () => {
     try {
       dispatch(loginUser(credentials, navigate));
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
     }
@@ -34,7 +34,11 @@ const LoginPage = () => {
             <div className="decoration">
               <img src="./ball.png" alt="decoration" />
             </div>
-            <img src="./img-login.png" alt="login-img" />
+            <img
+              src="./img-login.png"
+              alt="login-img"
+              className="bottom-center"
+            />
           </div>
         </div>
         <div className="login">
@@ -43,7 +47,6 @@ const LoginPage = () => {
               <h1>Login to Admin Page</h1>
               <p>See what is going on with your business</p>
             </div>
-            {/* {error && <div className="error">{error}</div>} */}
             <div className="login-field">
               <label className="login-label" htmlFor="email">
                 Email

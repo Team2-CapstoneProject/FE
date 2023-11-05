@@ -25,6 +25,7 @@ export const loginUser = (credentials, navigate) => {
 
       dispatch(loginSuccess(response.data.user, response.data.token));
       localStorage.setItem('token', response.data.token);
+      // console.log('Token:', response.data.token);
       navigate('/dashboard');
 
       Swal.fire({

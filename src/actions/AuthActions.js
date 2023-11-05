@@ -8,10 +8,12 @@ export const loginSuccess = (user, token) => (dispatch) => {
   });
 };
 
-export const loginFailure = (error) => ({
-  type: 'LOGIN_FAILURE',
-  payload: error,
-});
+export const loginFailure = (error) => (dispatch) => {
+  dispatch({
+    type: 'LOGIN_FAILURE',
+    payload: error,
+  })
+};
 
 export const loginUser = (credentials, navigate) => {
   return async (dispatch) => {
@@ -24,6 +26,7 @@ export const loginUser = (credentials, navigate) => {
       dispatch(loginSuccess(response.data.user, response.data.token));
       localStorage.setItem('token', response.data.token);
       navigate('/dashboard');
+
       Swal.fire({
         icon: 'success',
         title: 'Login Successful',
@@ -36,7 +39,7 @@ export const loginUser = (credentials, navigate) => {
       Swal.fire({
         icon: 'error',
         title: 'Login Failed',
-        text: error.response ? error.response.data.error : 'An error occurred',
+        text: 'Incorrect username or password. Please try again.',
       });
     }
   };

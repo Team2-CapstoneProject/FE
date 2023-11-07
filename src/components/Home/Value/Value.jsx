@@ -9,7 +9,7 @@ import {
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
 import { MdOutlineArrowDropDown } from "react-icons/md";
-import data from "../../../utils/accordion";
+import data from "../../../Utils/accordion";
 import "./Value.css";
 
 const Value = () => {

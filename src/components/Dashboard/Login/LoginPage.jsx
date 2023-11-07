@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../Login/Login.css";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../../actions/AuthActions";
+import { loginUser } from "../../../redux/actions/AuthActions";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {

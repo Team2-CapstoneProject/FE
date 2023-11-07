@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
+import { SidebarProvider } from './components/Dashboard/Main/context/sidebarContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <App />
+    <SidebarProvider>
+      <App />
+    </SidebarProvider>
   </Provider>
 );
 

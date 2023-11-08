@@ -27,6 +27,11 @@ const Sidebar = () => {
   const handleLinkClick = (pathname) => {
     setActiveLink(pathname);
     navigate(pathname);
+
+    if (pathname === "/logout") {
+      localStorage.removeItem("token");
+      navigate("/login");
+    }
   };
 
   return (

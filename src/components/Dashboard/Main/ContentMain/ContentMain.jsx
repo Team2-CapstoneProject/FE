@@ -1,6 +1,6 @@
 import "./ContentMain.css";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "../pages/Dashboard/Dashboard";
 import Guest from "../pages/Guest";
 import Villa from "../pages/Villa";
 

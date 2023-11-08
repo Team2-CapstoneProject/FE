@@ -1,33 +1,38 @@
-import axios from 'axios';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
-axios.defaults.withCredentials = true;
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGOUT = 'LOGOUT';
 
-export const loginSuccess = (user, token) => (dispatch) => {
-  dispatch({
-    type: 'LOGIN_SUCCESS',
-    payload: { user, token },
-  });
-};
+export const loginRequest = () => ({
+  type: LOGIN_REQUEST,
+});
 
-export const loginFailure = (error) => (dispatch) => {
-  dispatch({
-    type: 'LOGIN_FAILURE',
-    payload: error,
-  })
-};
+export const loginSuccess = (user, token) => ({
+  type: LOGIN_SUCCESS,
+  payload: { user, token },
+});
+
+export const loginFailure = (error) => ({
+  type: LOGIN_FAILURE,
+  payload: error,
+});
+
+export const logout = () => ({
+  type: LOGOUT,
+});
 
 export const loginUser = (credentials, navigate) => {
   return async (dispatch) => {
+    dispatch(loginRequest());
+
     try {
-      const response = await axios.post(
-        '/api/auth/login',
-        credentials
-      );
+      const response = await axios.post('/api/auth/login', credentials);
 
       dispatch(loginSuccess(response.data.user, response.data.token));
       localStorage.setItem('token', response.data.token);
-      // console.log('Token:', response.data.token);
       navigate('/dashboard');
 
       Swal.fire({
@@ -36,18 +41,14 @@ export const loginUser = (credentials, navigate) => {
         text: 'You have successfully logged in!',
       });
     } catch (error) {
-      // console.error('Login Error:', error);
-      dispatch(loginFailure(error.response ? error.response.data.error : 'An error occurred'));
 
       Swal.fire({
         icon: 'error',
         title: 'Login Failed',
         text: 'Incorrect username or password. Please try again.',
       });
+
+      dispatch(loginFailure(error.response ? error.response.data.error : 'An error occurred'));
     }
   };
-};
-
-export const logoutUser = () => (dispatch) => {
-  dispatch({ type: 'LOGOUT' });
 };

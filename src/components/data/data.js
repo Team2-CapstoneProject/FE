@@ -1,4 +1,4 @@
-import { iconsImgs } from "../../../../Utils/images";
+import { iconsImgs } from "../../Utils/images";
 
 export const navigationLinks = [
     { id: 1, title: 'Home', image: iconsImgs.home, pathname: "/dashboard" },

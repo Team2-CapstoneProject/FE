@@ -1,4 +1,4 @@
-import { iconsImgs } from "../../../../Utils/images";
+import { iconsImgs } from "../../Utils/images";
 import "./ContentTop.css";
 import { useContext } from "react";
 import { SidebarContext } from "../context/sidebarContext";

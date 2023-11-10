@@ -5,13 +5,13 @@ import {
   addVillaAction,
   editVillaAction,
   deleteVillaAction,
-} from "../../../../redux/actions/DashboardActions";
+} from "../../../redux/actions/DashboardActions";
 
 import "react-responsive-modal/styles.css";
 import { Formik, Form, Field } from "formik";
 import { Modal } from "react-responsive-modal";
 
-const Villa = () => {
+const VillaPage = () => {
   const dispatch = useDispatch();
   const villas = useSelector((state) => state.dashboard.villas);
   const loading = useSelector((state) => state.dashboard.loading);
@@ -147,4 +147,4 @@ const Villa = () => {
   );
 };
 
-export default Villa;
+export default VillaPage;

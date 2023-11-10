@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export const FETCH_DASHBOARD_DATA_REQUEST = 'FETCH_DASHBOARD_DATA_REQUEST';
 export const FETCH_DASHBOARD_DATA_SUCCESS = 'FETCH_DASHBOARD_DATA_SUCCESS';
@@ -124,41 +125,47 @@ export const deleteVillaAction = (vilaId) => async (dispatch) => {
   dispatch(deleteVilla());
   try {
     const token = localStorage.getItem('token');
-    console.log("Token:", token);
 
     if (!token) {
       throw new Error('Token not found');
     }
 
+    const formData = new URLSearchParams();
+    formData.append('vilaId', vilaId);
+
     const config = {
       headers: {
-        // 'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${token}`,
       },
     };
 
-    const response = await axios.post(`/api/dashboard/deletevila/${vilaId}`, config);
+    const response = await axios.post('/api/dashboard/deletevila', formData, config);
 
     const { data } = response;
 
     if (data && data.message === 'successfully deleted a vila.') {
-      dispatch(deleteVillaSuccess());
+      Swal.fire({
+        icon: 'success',
+        title: 'Villa Deleted',
+        text: 'Villa has been successfully deleted.',
+      }).then(() => {
+        window.location.reload();
+      });
+
+      const updatedVillas = await fetchVillas();
+      dispatch(deleteVillaSuccess(updatedVillas));
     } else {
       throw new Error('Invalid response format. Vila deletion failed.');
     }
   } catch (error) {
-    console.error('Error deleting vila:', error);
-
-    // Log specific error details for better debugging
-    if (error.response) {
-      console.error('Server response data:', error.response.data);
-      console.error('Server response status:', error.response.status);
-      console.error('Server response headers:', error.response.headers);
-    } else if (error.request) {
-      console.error('No response received:', error.request);
-    } else {
-      console.error('Error setting up the request:', error.message);
-    }
+    Swal.fire({
+      icon: 'error',
+      title: 'Villa Deletion Failed',
+      text: 'Failed to delete the villa. Please try again.',
+    }).then(() => {
+      window.location.reload();
+    });
 
     dispatch(deleteVillaFailure(error.message));
   }
@@ -211,7 +218,6 @@ export const addVillaAction = () => async (dispatch) => {
   } catch (error) {
     console.error('Error adding villa:', error);
 
-    // Log specific error details for better debugging
     if (error.response) {
       console.error('Server response data:', error.response.data);
       console.error('Server response status:', error.response.status);

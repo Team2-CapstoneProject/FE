@@ -29,19 +29,19 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <h2 className="dashboard-title">{dashboardData.message}</h2>
       <div className="card-container">
-        <div className="card">
+        <div className="card card-1">
           <h3>Total Check-Ins</h3>
           <p>{dashboardData.nCheckIn}</p>
         </div>
-        <div className="card">
+        <div className="card card-2">
           <h3>Total Check-Outs</h3>
           <p>{dashboardData.nCheckOut}</p>
         </div>
-        <div className="card">
+        <div className="card card-3">
           <h3>Total Villas</h3>
           <p>{dashboardData.nVila}</p>
         </div>
-        <div className="card">
+        <div className="card card-4">
           <h3>Available Villas</h3>
           <p>{dashboardData.nAvailVila}</p>
         </div>

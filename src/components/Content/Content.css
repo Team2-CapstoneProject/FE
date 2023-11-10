@@ -5,6 +5,10 @@
     
   }
 
+.main-content-holder{
+  flex: 1;
+}
+
   @media screen and (max-width: 1400px) {
     .main-content {
       padding-left: 20px;

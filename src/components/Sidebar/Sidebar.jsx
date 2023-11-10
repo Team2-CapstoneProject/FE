@@ -4,12 +4,16 @@ import { useContext } from "react";
 import "../Sidebar/Sidebar.css";
 import { SidebarContext } from "../context/sidebarContext";
 
+import { logoutUser } from "../../redux/actions/AuthActions";
+import { useDispatch } from "react-redux";
+
 const Sidebar = () => {
   const [activeLink, setActiveLink] = useState("/dashboard");
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setSidebarClass(isSidebarOpen ? "sidebar-change" : "");
@@ -29,9 +33,11 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    // Your logout logic here, e.g., remove token from localStorage
-    localStorage.removeItem("token");
-    navigate("/login");
+    try {
+      dispatch(logoutUser()).then(() => navigate("/login"));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

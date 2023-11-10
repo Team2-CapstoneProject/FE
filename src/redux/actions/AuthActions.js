@@ -52,3 +52,21 @@ export const loginUser = (credentials, navigate) => {
     }
   };
 };
+
+
+export const logoutUser = (navigate) => {
+  return async (dispatch) => {
+    try {
+      dispatch(logoutUser())
+        .then(() => {
+          navigate("/login");
+        })
+        .catch((error) => {
+          console.error("Logout error:", error);
+        });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  }
+
+}

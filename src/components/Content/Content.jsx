@@ -1,6 +1,6 @@
-import ContentMain from "../../ContentMain/ContentMain";
-import ContentTop from "../../ContentTop/ContentTop";
 import "./Content.css";
+import ContentTop from "../ContentTop/ContentTop";
+import ContentMain from "../ContentMain/ContentMain";
 
 const Content = () => {
   return (

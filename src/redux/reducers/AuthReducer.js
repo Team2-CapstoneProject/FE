@@ -1,3 +1,10 @@
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+} from '../actions/AuthActions';
+
 const initialState = {
   user: null,
   token: null,
@@ -7,7 +14,15 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
+    case LOGIN_REQUEST:
+      return {
+        ...state,
+        user: null,
+        token: null,
+        error: null,
+        isLoggedIn: false,
+      };
+    case LOGIN_SUCCESS:
       return {
         ...state,
         user: action.payload.user,
@@ -15,14 +30,14 @@ const authReducer = (state = initialState, action) => {
         error: null,
         isLoggedIn: true,
       };
-    case 'LOGIN_FAILURE':
+    case LOGIN_FAILURE:
       return {
         ...state,
         user: null,
         error: action.payload,
         isLoggedIn: false,
       };
-    case 'LOGOUT':
+    case LOGOUT:
       return initialState;
     default:
       return state;

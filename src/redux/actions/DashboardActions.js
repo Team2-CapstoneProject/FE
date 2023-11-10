@@ -186,51 +186,67 @@ const addVillaFailure = (error) => ({
   payload: error,
 });
 
-
-export const addVillaAction = () => async (dispatch) => {
+export const addVillaAction = (villaData) => async (dispatch) => {
   dispatch(addVilla());
+
   try {
     const token = localStorage.getItem('token');
-    console.log('Token:', token);
 
     if (!token) {
       throw new Error('Token not found');
     }
 
+    const formData = new FormData();
+
+    formData.append('name', villaData.name);
+    formData.append('price', villaData.price);
+    formData.append('description', villaData.description);
+    formData.append('location', villaData.location);
+
+    const imageUrlsArray = villaData.imageUrls.split(',').map(url => url.trim());
+    formData.append('images', JSON.stringify(imageUrlsArray));
+
+
+    formData.append('facilities', JSON.stringify(villaData.facilities));
+    formData.append('longitude', villaData.longitude || '');
+    formData.append('latitude', villaData.latitude || '');
+
     const config = {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
     };
 
-
-    const response = await axios.post('/api/dashboard/createvila', config);
+    const response = await axios.post('/api/dashboard/createvila', formData, config);
 
     const { data } = response;
 
-    if (data && data.villa) {
-      const { villa: newVilla } = data;
-      dispatch(addVillaSuccess(newVilla));
+    if (data && data.message === 'successfully added a new vila.') {
+      Swal.fire({
+        icon: 'success',
+        title: 'Villa Added',
+        text: 'A new villa has been successfully added.',
+      }).then(() => {
+        window.location.reload();
+      });
+
+      const updatedVillas = await dispatch(fetchVillas());
+      dispatch(addVillaSuccess(updatedVillas));
     } else {
-      throw new Error('Invalid response format. Villa data not found.');
+      throw new Error('Invalid response format. Vila addition failed.');
     }
   } catch (error) {
-    console.error('Error adding villa:', error);
-
-    if (error.response) {
-      console.error('Server response data:', error.response.data);
-      console.error('Server response status:', error.response.status);
-      console.error('Server response headers:', error.response.headers);
-    } else if (error.request) {
-      console.error('No response received:', error.request);
-    } else {
-      console.error('Error setting up the request:', error.message);
-    }
+    Swal.fire({
+      icon: 'error',
+      title: 'Villa Addition Failed',
+      text: 'Failed to add the new villa. Please try again.',
+    });
 
     dispatch(addVillaFailure(error.message));
   }
 };
+
 
 export const editVillaAction = (villaId) => async (dispatch) => {
   try {

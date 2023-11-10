@@ -6,7 +6,8 @@ import {
   editVillaAction,
   deleteVillaAction,
 } from "../../../redux/actions/DashboardActions";
-
+import Swal from "sweetalert2";
+import "./Villa.css";
 import "react-responsive-modal/styles.css";
 import { Formik, Form, Field } from "formik";
 import { Modal } from "react-responsive-modal";
@@ -17,17 +18,10 @@ const VillaPage = () => {
   const loading = useSelector((state) => state.dashboard.loading);
   const error = useSelector((state) => state.dashboard.error);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchVillas());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (error) {
-      setIsErrorModalOpen(true);
-    }
-  }, [error]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -37,13 +31,24 @@ const VillaPage = () => {
     setIsModalOpen(false);
   };
 
-  const closeErrorModal = () => {
-    setIsErrorModalOpen(false);
-  };
+  const handleSubmit = async (values) => {
+    try {
+      await dispatch(addVillaAction(values));
 
-  const handleSubmit = (values) => {
-    dispatch(addVillaAction(values));
-    closeModal();
+      closeModal();
+
+      Swal.fire({
+        icon: "success",
+        title: "Villa Added",
+        text: "A new villa has been successfully added.",
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Villa Addition Failed",
+        text: "Failed to add the new villa. Please try again.",
+      });
+    }
   };
 
   const handleEdit = (id) => {
@@ -59,9 +64,11 @@ const VillaPage = () => {
   }
 
   return (
-    <div>
+    <div className="villa-page-container">
       <h1>Villa List</h1>
-      <button onClick={openModal}>Add Villa</button>
+      <button className="add-villa-button" onClick={openModal}>
+        Add Villa
+      </button>
 
       <Modal open={isModalOpen} onClose={closeModal}>
         <h2>Add New Villa</h2>
@@ -71,52 +78,87 @@ const VillaPage = () => {
             price: "",
             description: "",
             location: "",
-            images: [],
+            imageUrls: "",
             facilities: [1, 2, 3],
             longitude: null,
             latitude: null,
           }}
           onSubmit={handleSubmit}
         >
-          <Form>
-            <div>
-              <label htmlFor="name">Name:</label>
-              <Field type="text" id="name" name="name" />
-            </div>
+          {({ values, setFieldValue }) => (
+            <Form className="villa-form">
+              <div className="form-group">
+                <label htmlFor="name" className="form-label">
+                  Name:
+                </label>
+                <Field
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="form-input"
+                />
+              </div>
 
-            <div>
-              <label htmlFor="price">Price:</label>
-              <Field type="text" id="price" name="price" />
-            </div>
+              <div className="form-group">
+                <label htmlFor="price" className="form-label">
+                  Price:
+                </label>
+                <Field
+                  type="text"
+                  id="price"
+                  name="price"
+                  className="form-input"
+                />
+              </div>
 
-            <div>
-              <label htmlFor="description">Description:</label>
-              <Field as="textarea" id="description" name="description" />
-            </div>
+              <div className="form-group">
+                <label htmlFor="description" className="form-label">
+                  Description:
+                </label>
+                <Field
+                  as="textarea"
+                  id="description"
+                  name="description"
+                  className="form-textarea"
+                />
+              </div>
 
-            <div>
-              <label htmlFor="location">Location:</label>
-              <Field type="text" id="location" name="location" />
-            </div>
+              <div className="form-group">
+                <label htmlFor="location" className="form-label">
+                  Location:
+                </label>
+                <Field
+                  type="text"
+                  id="location"
+                  name="location"
+                  className="form-input"
+                />
+              </div>
 
-            <div>
-              <label htmlFor="images">Villa Images:</label>
-              <Field type="text" id="images" name="images" />
-            </div>
+              <div className="form-group">
+                <label htmlFor="imageUrls" className="form-label">
+                  Villa Image URLs:
+                </label>
+                <Field
+                  type="text"
+                  id="imageUrls"
+                  name="imageUrls"
+                  className="form-input"
+                  value={values.imageUrls}
+                  onChange={(e) => setFieldValue("imageUrls", e.target.value)}
+                  placeholder="Enter image URLs separated by commas"
+                />
+              </div>
 
-            <button type="submit">Submit</button>
-          </Form>
+              <button type="submit" className="form-submit">
+                Submit
+              </button>
+            </Form>
+          )}
         </Formik>
       </Modal>
 
-      {isErrorModalOpen && (
-        <Modal open={isErrorModalOpen} onClose={closeErrorModal}>
-          <h2>Error</h2>
-          <p>{error}</p>
-        </Modal>
-      )}
-
-      <table>
+      <table className="villa-table">
         <thead>
           <tr>
             <th>Id</th>
@@ -136,8 +178,18 @@ const VillaPage = () => {
               <td>{villa.description}</td>
               <td>{villa.location}</td>
               <td>
-                <button onClick={() => handleEdit(villa.id)}>Edit</button>
-                <button onClick={() => handleDelete(villa.id)}>Delete</button>
+                <button
+                  className="edit-button"
+                  onClick={() => handleEdit(villa.id)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDelete(villa.id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}

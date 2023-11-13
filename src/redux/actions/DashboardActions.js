@@ -90,9 +90,6 @@ export const fetchVillas = () => {
   };
 };
 
-
-
-
 export const ADD_VILLA = 'ADD_VILLA';
 export const EDIT_VILLA = 'EDIT_VILLA';
 export const DELETE_VILLA = 'DELETE_VILLA';
@@ -100,17 +97,14 @@ export const DELETE_VILLA_SUCCESS = 'DELETE_VILLA_SUCCESS';
 export const DELETE_VILLA_FAILURE = 'DELETE_VILLA_FAILURE';
 export const ADD_VILLA_SUCCESS = 'ADD_VILLA_SUCCESS';
 export const ADD_VILLA_FAILURE = 'ADD_VILLA_FAILURE';
-
-
-export const editVilla = (villa) => ({
-  type: EDIT_VILLA,
-  payload: villa,
-});
+export const EDIT_VILLA_SUCCESS = 'EDIT_VILLA_SUCCESS';
+export const EDIT_VILLA_FAILURE = 'EDIT_VILLA_FAILURE';
 
 export const deleteVilla = (villaId) => ({
   type: DELETE_VILLA,
   payload: villaId,
 });
+
 const deleteVillaSuccess = (villas) => ({
   type: DELETE_VILLA_SUCCESS,
   payload: villas,
@@ -145,6 +139,10 @@ export const deleteVillaAction = (vilaId) => async (dispatch) => {
     const { data } = response;
 
     if (data && data.message === 'successfully deleted a vila.') {
+      const updatedVillas = await fetchVillas();
+      dispatch(deleteVillaSuccess(updatedVillas));
+
+      await new Promise((resolve) => setTimeout(resolve, 0));
       Swal.fire({
         icon: 'success',
         title: 'Villa Deleted',
@@ -152,9 +150,6 @@ export const deleteVillaAction = (vilaId) => async (dispatch) => {
       }).then(() => {
         window.location.reload();
       });
-
-      const updatedVillas = await fetchVillas();
-      dispatch(deleteVillaSuccess(updatedVillas));
     } else {
       throw new Error('Invalid response format. Vila deletion failed.');
     }
@@ -170,6 +165,7 @@ export const deleteVillaAction = (vilaId) => async (dispatch) => {
     dispatch(deleteVillaFailure(error.message));
   }
 };
+
 
 export const addVilla = (villa) => ({
   type: ADD_VILLA,
@@ -248,7 +244,24 @@ export const addVillaAction = (villaData) => async (dispatch) => {
 };
 
 
-export const editVillaAction = (villaId) => async (dispatch) => {
+export const editVilla = (villa) => ({
+  type: EDIT_VILLA,
+  payload: villa,
+});
+
+const editVillaSuccess = (villas) => ({
+  type: EDIT_VILLA_SUCCESS,
+  payload: villas,
+});
+
+const editVillaFailure = (error) => ({
+  type: EDIT_VILLA_FAILURE,
+  payload: error,
+});
+
+export const editVillaAction = (villaData) => async (dispatch) => {
+  dispatch(editVilla());
+
   try {
     const token = localStorage.getItem('token');
 
@@ -256,17 +269,64 @@ export const editVillaAction = (villaId) => async (dispatch) => {
       throw new Error('Token not found');
     }
 
-    const response = await axios.post(`/api/dashboard/editvila/${villaId}`, {
+    const formData = new FormData();
+
+    formData.append('vilaId', villaData.vilaId);
+    formData.append('name', villaData.name);
+    formData.append('price', villaData.price);
+    formData.append('description', villaData.description);
+    formData.append('location', villaData.location);
+
+    // if (villaData.latitude) {
+    //   formData.append('latitude', villaData.latitude);
+    // }
+    // if (villaData.longitude) {
+    //   formData.append('longitude', villaData.longitude);
+    // }
+
+    // if (Array.isArray(villaData.images)) {
+    //   const imageUrls = villaData.images.join(',');
+    //   formData.append('images', imageUrls);
+    // }
+
+    // formData.append('facilities', JSON.stringify(villaData.facilities));
+
+    const config = {
       headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${token}`,
       },
-    });
-    dispatch({
-      type: EDIT_VILLA,
-      payload: response.data,
-    });
+    };
+
+    const response = await axios.post('/api/dashboard/editvila', formData, config);
+
+    const { data } = response;
+
+    if (data && data.message === 'successfully edited the vila.') {
+      //   await new Promise(resolve => setTimeout(resolve, 0));
+      //   Swal.fire({
+      //     icon: 'success',
+      //     title: 'Villa Edited',
+      //     text: 'The villa has been successfully edited.',
+      //   }).then(() => {
+      //     window.location.reload();
+      //   });
+
+      const updatedVillas = await dispatch(fetchVillas());
+      dispatch(editVillaSuccess(updatedVillas));
+    } else {
+      throw new Error('Invalid response format. Villa editing failed.');
+    }
   } catch (error) {
-    console.error('Error editing villa:', error);
+    console.error(error)
+
+    // Swal.fire({
+    //   icon: 'error',
+    //   title: 'Villa Editing Failed',
+    //   text: 'Failed to edit the villa. Please try again.',
+    // });
+
+    dispatch(editVillaFailure(error.message));
   }
 };
 

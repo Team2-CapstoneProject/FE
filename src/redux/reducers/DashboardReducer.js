@@ -5,12 +5,12 @@ import {
   FETCH_VILLAS_REQUEST,
   FETCH_VILLAS_SUCCESS,
   FETCH_VILLAS_FAILURE,
-  ADD_VILLA,
   ADD_VILLA_SUCCESS,
   ADD_VILLA_FAILURE,
-  EDIT_VILLA,
-  DELETE_VILLA,
-  DELETE_VILLA_SUCCESS, DELETE_VILLA_FAILURE,
+  EDIT_VILLA_SUCCESS,
+  EDIT_VILLA_FAILURE,
+  DELETE_VILLA_SUCCESS,
+  DELETE_VILLA_FAILURE,
 } from '../actions/DashboardActions';
 
 const initialState = {
@@ -29,6 +29,7 @@ const dashboardReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        error: null,
       };
 
     case FETCH_DASHBOARD_DATA_SUCCESS:
@@ -47,21 +48,6 @@ const dashboardReducer = (state = initialState, action) => {
         error: null,
       };
 
-    case FETCH_DASHBOARD_DATA_FAILURE:
-    case FETCH_VILLAS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-
-    case ADD_VILLA:
-      return {
-        ...state,
-        loading: true,
-        error: null
-      };
-
     case ADD_VILLA_SUCCESS:
       return {
         ...state,
@@ -70,28 +56,19 @@ const dashboardReducer = (state = initialState, action) => {
         error: null,
       };
 
-    case ADD_VILLA_FAILURE:
+    case EDIT_VILLA_SUCCESS:
+      const updatedVilla = action.payload;
+      const updatedVillas = state.villas.map((villa) =>
+        villa.id === updatedVilla.id ? updatedVilla : villa
+      );
+
       return {
         ...state,
+        villas: updatedVillas,
         loading: false,
-        error: action.payload,
-      };
-
-    case EDIT_VILLA:
-      return {
-        ...state,
-        villas: state.villas.map((villa) =>
-          villa.id === action.payload.id ? action.payload : villa
-        ),
-      };
-
-    case DELETE_VILLA:
-      return {
-        ...state,
-        deleting: true,
-        success: false,
         error: null,
       };
+
     case DELETE_VILLA_SUCCESS:
       return {
         ...state,
@@ -99,11 +76,15 @@ const dashboardReducer = (state = initialState, action) => {
         success: true,
         error: null,
       };
+
+    case FETCH_DASHBOARD_DATA_FAILURE:
+    case FETCH_VILLAS_FAILURE:
+    case ADD_VILLA_FAILURE:
+    case EDIT_VILLA_FAILURE:
     case DELETE_VILLA_FAILURE:
       return {
         ...state,
-        deleting: false,
-        success: false,
+        loading: false,
         error: action.payload,
       };
 

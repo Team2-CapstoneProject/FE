@@ -8,7 +8,6 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const dashboardData = useSelector((state) => state.dashboard.data);
   const loading = useSelector((state) => state.dashboard.loading);
-  // const error = useSelector((state) => state.dashboard.error);
 
   useEffect(() => {
     dispatch(fetchDashboardData());
@@ -33,7 +32,6 @@ const Dashboard = () => {
           </p>
         </div>
       </div>
-      {/* <h2 className="dashboard-title">{dashboardData.message}</h2> */}
       <div className="card-container">
         <div className="card-dashboard card-1">
           <h3>Total Check-Ins</h3>
@@ -51,10 +49,6 @@ const Dashboard = () => {
           <h3>Available Villas</h3>
           <p>{dashboardData.nAvailVila}</p>
         </div>
-        {/* <div className="card">
-          <h3>Not Available Villas</h3>
-          <p>{dashboardData.notAvailVila}</p>
-        </div> */}
       </div>
 
       <h3 className="users-title">Users</h3>

@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchDashboardData } from "../../../redux/actions/DashboardActions";
 import "./Dashboard.css";
 import ClipLoader from "react-spinners/ClipLoader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
   const dispatch = useDispatch();

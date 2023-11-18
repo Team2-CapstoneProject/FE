@@ -6,6 +6,13 @@ import { SidebarContext } from "../context/sidebarContext";
 
 import { logoutUser } from "../../redux/actions/AuthActions";
 import { useDispatch } from "react-redux";
+import {
+  faHome,
+  faUsers,
+  faBuilding,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Sidebar = () => {
   const [activeLink, setActiveLink] = useState("/dashboard");
@@ -48,6 +55,7 @@ const Sidebar = () => {
 
       <nav className="navigation">
         <ul className="nav-list">
+          <div className="spacer"></div>
           <li className="nav-item">
             <Link
               to="/dashboard"
@@ -56,7 +64,8 @@ const Sidebar = () => {
               }`}
               onClick={() => handleLinkClick("/dashboard")}
             >
-              Dashboard
+              <FontAwesomeIcon icon={faHome} className="nav-link-icon" />
+              <span className="nav-link-text">Dashboard</span>
             </Link>
           </li>
           <li className="nav-item">
@@ -67,7 +76,8 @@ const Sidebar = () => {
               }`}
               onClick={() => handleLinkClick("/dashboard/guest")}
             >
-              Guest
+              <FontAwesomeIcon icon={faUsers} className="nav-link-icon" />
+              <span className="nav-link-text">Guest</span>
             </Link>
           </li>
           <li className="nav-item">
@@ -78,9 +88,14 @@ const Sidebar = () => {
               }`}
               onClick={() => handleLinkClick("/dashboard/villa")}
             >
-              Villa
+              <FontAwesomeIcon icon={faBuilding} className="nav-link-icon" />
+              <span className="nav-link-text">Villa</span>
             </Link>
           </li>
+        </ul>
+
+        <div className="spacer"></div>
+        <ul className="nav-list">
           <li className="nav-item">
             <Link
               to="/dashboard/logout"
@@ -89,7 +104,8 @@ const Sidebar = () => {
               }`}
               onClick={() => handleLinkClick("/dashboard/logout")}
             >
-              Logout
+              <FontAwesomeIcon icon={faSignOutAlt} className="nav-link-icon" />
+              <span className="nav-link-text">Logout</span>
             </Link>
           </li>
         </ul>

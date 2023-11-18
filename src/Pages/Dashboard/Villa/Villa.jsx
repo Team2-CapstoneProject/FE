@@ -9,8 +9,38 @@ import {
 import Swal from "sweetalert2";
 import "./Villa.css";
 import "react-responsive-modal/styles.css";
+import ClipLoader from "react-spinners/ClipLoader";
 import { Modal } from "react-responsive-modal";
 import { Formik, Form, Field } from "formik";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+
+const VillaCard = ({ villa, onEdit, onDelete }) => (
+  <div className="villa-card">
+    <div className="villa-top">
+      <h3 className="villa-name">{villa.name}</h3>
+      <button className="delete-button" onClick={() => onDelete(villa.id)}>
+        <FontAwesomeIcon icon={faTrash} />
+      </button>
+    </div>
+    <img
+      src={villa.VilaImages[0].slider_image}
+      alt={villa.name}
+      className="villa-image"
+    />
+    <p className="villa-location">
+      <FontAwesomeIcon icon={faMapMarkerAlt} className="location-icon" />
+      {villa.location}
+    </p>
+    <p className="villa-description">{villa.description.slice(0, 150)}...</p>
+    <div className="villa-bottom">
+      <p className="villa-price">Rp. {villa.price}</p>
+      <button className="edit-button" onClick={() => onEdit(villa.id)}>
+        Edit
+      </button>
+    </div>
+  </div>
+);
 
 const VillaPage = () => {
   const dispatch = useDispatch();
@@ -93,22 +123,33 @@ const VillaPage = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="loading-container">
+        <ClipLoader color="#007bff" loading={loading} size={50} />
+      </div>
+    );
   }
 
   return (
     <div className="villa-page-container">
-      <h1>Villa Management</h1>
-      <p>
-        Welcome to the Villa Management Page. Here, you can view, add, edit, and
-        delete villas.
-      </p>
+      <div className="header-container">
+        <div className="header-content">
+          <h1 className="header-title">Discover Luxurious Villas</h1>
+          <p className="header-subtitle">
+            Explore, add, edit, and delete stunning villas in our management
+            system.
+          </p>
+          <button className="add-villa-button" onClick={openModal}>
+            Add Villa
+          </button>
+        </div>
+      </div>
 
-      <button className="add-villa-button" onClick={openModal}>
-        Add Villa
-      </button>
-
-      <Modal open={isModalOpen} onClose={closeModal}>
+      <Modal
+        open={isModalOpen}
+        onClose={closeModal}
+        styles={{ modal: { width: "60%" } }}
+      >
         {editingVilla ? (
           <Formik
             key={editingVilla ? editingVilla.id : "add"}
@@ -126,58 +167,57 @@ const VillaPage = () => {
             onSubmit={handleSubmitUpdate}
           >
             {({ values, setFieldValue }) => (
-              console.log("Editing villa values:", values),
-              (
-                <Form className="villa-form">
-                  <div className="form-group">
-                    <label htmlFor="name" className="form-label">
-                      Name:
-                    </label>
-                    <Field
-                      type="text"
-                      id="name"
-                      name="name"
-                      className="form-input"
-                    />
-                  </div>
+              // console.log("Editing villa values:", values),
+              <Form className="form-villa">
+                <div className="form-group">
+                  <label htmlFor="name" className="form-label">
+                    Name:
+                  </label>
+                  <Field
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="form-input"
+                  />
+                </div>
 
-                  <div className="form-group">
-                    <label htmlFor="price" className="form-label">
-                      Price:
-                    </label>
-                    <Field
-                      type="text"
-                      id="price"
-                      name="price"
-                      className="form-input"
-                    />
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="price" className="form-label">
+                    Price:
+                  </label>
+                  <Field
+                    type="text"
+                    id="price"
+                    name="price"
+                    className="form-input"
+                  />
+                </div>
 
-                  <div className="form-group">
-                    <label htmlFor="description" className="form-label">
-                      Description:
-                    </label>
-                    <Field
-                      as="textarea"
-                      id="description"
-                      name="description"
-                      className="form-textarea"
-                    />
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="description" className="form-label">
+                    Description:
+                  </label>
+                  <Field
+                    as="textarea"
+                    id="description"
+                    name="description"
+                    className="form-textarea"
+                  />
+                </div>
 
-                  <div className="form-group">
-                    <label htmlFor="location" className="form-label">
-                      Location:
-                    </label>
-                    <Field
-                      type="text"
-                      id="location"
-                      name="location"
-                      className="form-input"
-                    />
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="location" className="form-label">
+                    Location:
+                  </label>
+                  <Field
+                    type="text"
+                    id="location"
+                    name="location"
+                    className="form-input"
+                  />
+                </div>
 
-                  {/* <div className="form-group">
+                {/* <div className="form-group">
                     <label htmlFor="imageUrls" className="form-label">
                       Villa Image URLs:
                     </label>
@@ -194,7 +234,7 @@ const VillaPage = () => {
                     />
                   </div> */}
 
-                  {/* <div className="form-group">
+                {/* <div className="form-group">
                 <label htmlFor="latitude" className="form-label">
                   Latitude:
                 </label>
@@ -205,11 +245,10 @@ const VillaPage = () => {
                   className="form-input"
                 />
               </div> */}
-                  <button type="submit" className="form-submit">
-                    Update Villa
-                  </button>
-                </Form>
-              )
+                <button type="submit" className="form-submit">
+                  Update Villa
+                </button>
+              </Form>
             )}
           </Formik>
         ) : (
@@ -311,7 +350,7 @@ const VillaPage = () => {
         )}
       </Modal>
 
-      <table className="villa-table">
+      {/* <table className="villa-table">
         <thead>
           <tr>
             <th>Id</th>
@@ -347,7 +386,18 @@ const VillaPage = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+
+      <div className="villa-cards-container">
+        {villas.map((villa) => (
+          <VillaCard
+            key={villa.id}
+            villa={villa}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        ))}
+      </div>
     </div>
   );
 };

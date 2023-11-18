@@ -17,10 +17,10 @@ const LoginPage = () => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     try {
+      await new Promise((resolve) => setTimeout(resolve, 0));
       dispatch(loginUser(credentials, navigate));
-      navigate("/dashboard");
     } catch (error) {
       console.error(error);
     }

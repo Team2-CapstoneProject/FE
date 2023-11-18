@@ -2,8 +2,12 @@
 .sidebar {
   background-color: var(--clr-primary);
   width: 260px;
+  height: 100%;
   padding: 36px 20px;
   transition: var(--transition-default);
+  position: sticky;
+  overflow-y: auto;
+  top: 0;
 }
 .user-info {
   display: flex;
@@ -12,7 +16,9 @@
   column-gap: 16px;
 }
 .info-name {
-  font-weight: 500;
+  font-weight: 600;
+  margin-left: 1.5rem;
+  margin-top: 2rem;
 }
 .info-img {
   width: 48px;
@@ -27,6 +33,20 @@
   color: var(--clr-white);
   text-transform: uppercase;
 }
+
+.spacer{
+  border-bottom: 0.1px dashed  #707070;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .navigation {
   margin-top: 28px;
   height: 600px;

@@ -2,32 +2,40 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDashboardData } from "../../../redux/actions/DashboardActions";
 import "./Dashboard.css";
+import ClipLoader from "react-spinners/ClipLoader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const dashboardData = useSelector((state) => state.dashboard.data);
   const loading = useSelector((state) => state.dashboard.loading);
-  const error = useSelector((state) => state.dashboard.error);
+  // const error = useSelector((state) => state.dashboard.error);
 
   useEffect(() => {
     dispatch(fetchDashboardData());
   }, [dispatch]);
 
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="error">Error: {error}</div>;
-  }
-
-  if (!dashboardData) {
-    return null;
+  if (loading || !dashboardData) {
+    return (
+      <div className="loading-container">
+        <ClipLoader color="#007bff" loading={loading} size={50} />
+      </div>
+    );
   }
 
   return (
     <div className="dashboard-container">
-      <h2 className="dashboard-title">{dashboardData.message}</h2>
+      <div className="custom-header-container">
+        <div className="custom-header-content">
+          <h1 className="custom-header-title">Discover Main Dashboard</h1>
+          <p className="custom-header-subtitle">
+            Explore, add, edit, and delete stunning villas in our management
+            system.
+          </p>
+        </div>
+      </div>
+      {/* <h2 className="dashboard-title">{dashboardData.message}</h2> */}
       <div className="card-container">
         <div className="card-dashboard card-1">
           <h3>Total Check-Ins</h3>
@@ -50,6 +58,7 @@ const Dashboard = () => {
           <p>{dashboardData.notAvailVila}</p>
         </div> */}
       </div>
+
       <h3 className="users-title">Users</h3>
       <table className="users-table">
         <thead>

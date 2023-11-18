@@ -40,7 +40,7 @@
 }
 
 /* commons */
-.lg-value {
+/* .lg-value {
   font-size: 24px;
   font-weight: 600;
 }
@@ -63,7 +63,7 @@
 }
 .grid-c-title-icon img {
   width: 24px;
-}
+} */
 
 @media screen and (max-width: 1400px) {
   .grid-common {

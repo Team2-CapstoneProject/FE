@@ -33,13 +33,15 @@ export const loginUser = (credentials, navigate) => {
 
       dispatch(loginSuccess(response.data.user, response.data.token));
       localStorage.setItem('token', response.data.token);
-      navigate('/dashboard');
 
       Swal.fire({
         icon: 'success',
         title: 'Login Successful',
         text: 'You have successfully logged in!',
       });
+
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      navigate('/dashboard');
     } catch (error) {
 
       Swal.fire({
